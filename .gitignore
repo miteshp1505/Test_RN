@@ -41,8 +41,50 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+android/*.hprof
+android/app/src/main/res/drawable*
+android/app/src/main/res/raw
+local.properties
+*.iml
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
+
 # TypeScript v1 declaration files
 typings/
+
+# Bundle artifact
+*.jsbundle
+
+# CocoaPods
+/ios/Pods/
 
 # TypeScript cache
 *.tsbuildinfo
