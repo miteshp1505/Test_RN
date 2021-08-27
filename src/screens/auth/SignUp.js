@@ -3,50 +3,37 @@ import {StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import Button from '../../components/Button';
 import {Colors} from '../../utils/Config';
 import TextInputField from '../../components/TextInputField';
-import {loginDetails} from '../../redux/actions/LoginActions';
-import {useSelector, useDispatch} from 'react-redux';
 import Toast from 'react-native-simple-toast';
+import {useSelector, useDispatch} from 'react-redux';
+import {createSignUp} from '../../redux/actions/SignUpActions';
 
-const Login = props => {
+const SignUp = props => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.signup);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirm_password, setConfirmPassword] = useState('');
+  const users = useSelector(state => state);
 
-  const onLogin = async () => {
-    console.log('Login');
-    if (email == '' || password == '') {
+  const onSignUp = () => {
+    if (email == '' || password == '' || confirm_password == '') {
       Toast.show('Please fill all the fields.', Toast.LONG);
       return;
     }
-    let check = user.usersList.reduce((acc, cur, index) => {
-      if (cur.email === email) {
-        if (cur.password === password) {
-          cur.status = true;
-          cur.message = 'Login Success';
-          acc = cur;
-        } else {
-          acc = {
-            message: 'Wrong Password',
-            status: false,
-          };
-        }
-      }
-      return acc;
-    }, {});
-    if (Object.keys(check).length !== 0) {
-      if (check.status) {
-        Toast.show(check.message, Toast.LONG);
-        await dispatch(loginDetails(check));
-        props.navigation.navigate('BottomTab');
-      } else {
-        Toast.show(check.message, Toast.LONG);
-        return;
-      }
-    } else {
-      Toast.show('User Not Found.', Toast.LONG);
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      Toast.show('Please check your email ID', Toast.LONG);
       return;
     }
+    if (password != confirm_password) {
+      Toast.show('Password Not Maching.', Toast.LONG);
+      return;
+    }
+    let data = {
+      id: users.signup.usersList.length + 1,
+      email: email,
+      password: password,
+    };
+    dispatch(createSignUp(data));
+    props.navigation.navigate('Login');
   };
 
   return (
@@ -56,7 +43,7 @@ const Login = props => {
       </View>
       <View style={{alignItems: 'center'}}>
         <TextInputField
-          placeholder="ID"
+          placeholder="Email ID"
           keyboardType="email-address"
           onChange={email => setEmail(email)}
         />
@@ -68,17 +55,18 @@ const Login = props => {
           onChange={password => setPassword(password)}
         />
 
-        <Button
-          label="Sign In"
-          onPress={() => onLogin('Login')}
-          styles={{backgroundColor: Colors.secondaryColor}}
+        <TextInputField
+          keyboardType="default"
+          placeholder="Confirm Password"
+          secure={true}
+          onChange={password => setConfirmPassword(password)}
         />
 
-        <TouchableHighlight
-          style={{...styles.buttonContainer}}
-          onPress={() => alert('Coming Soon')}>
-          <Text style={{color: 'grey'}}>Forgot your password?</Text>
-        </TouchableHighlight>
+        <Button
+          label="Sign Up"
+          onPress={() => onSignUp()}
+          styles={{backgroundColor: Colors.secondaryColor}}
+        />
       </View>
     </View>
   );
@@ -106,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;
