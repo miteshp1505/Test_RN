@@ -27,13 +27,24 @@ const SignUp = props => {
       Toast.show('Password Not Maching.', Toast.LONG);
       return;
     }
-    let data = {
-      id: users.signup.usersList.length + 1,
-      email: email,
-      password: password,
-    };
-    dispatch(createSignUp(data));
-    props.navigation.navigate('Login');
+
+    let check = users.signup.usersList.reduce((acc, cur, index) => {
+      acc = cur.email === email ? true : false;
+      return acc;
+    }, false);
+
+    if (!check) {
+      let data = {
+        id: users.signup.usersList.length + 1,
+        email: email,
+        password: password,
+      };
+      dispatch(createSignUp(data));
+      props.navigation.navigate('Login');
+    } else {
+      Toast.show('User Already Exists', Toast.LONG);
+      return;
+    }
   };
 
   return (

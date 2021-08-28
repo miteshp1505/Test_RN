@@ -62,7 +62,7 @@ const Login = props => {
       </View>
       <View style={{alignItems: 'center'}}>
         <TextInputField
-          placeholder="ID"
+          placeholder="Email ID"
           keyboardType="email-address"
           onChange={email => setEmail(email)}
         />
