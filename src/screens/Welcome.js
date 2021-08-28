@@ -67,7 +67,7 @@ const Welcome = props => {
           marginTop: 5,
         }}>
         <Text style={{fontSize: 16, color: '#8E8E8E'}}>
-          Don't have an account
+          Don't have an account ?
         </Text>
         <TouchableOpacity onPress={() => props.navigation.navigate('SignUp')}>
           <Text style={styles.signUpText}>Sign UP</Text>

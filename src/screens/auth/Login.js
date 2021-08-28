@@ -19,6 +19,12 @@ const Login = props => {
       Toast.show('Please fill all the fields.', Toast.LONG);
       return;
     }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      Toast.show('Please check your email ID', Toast.LONG);
+      return;
+    }
+
     let check = user.usersList.reduce((acc, cur, index) => {
       if (cur.email === email) {
         if (cur.password === password) {

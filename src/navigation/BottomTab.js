@@ -46,6 +46,7 @@ const BottomTab = ({navigation}) => {
                 color={focused ? '#6558F5' : '#3B4955'}
               />
             ),
+            headerShown:false
           }}
         />
         <Tab.Screen
